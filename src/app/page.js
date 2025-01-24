@@ -4,6 +4,8 @@ import React, { useState, useEffect } from 'react';
 
 const Home = () => {
   const [data, setData] = useState([]);
+  const [sortField, setSortField] = useState('Total energy supply');
+  const [sortDirection, setSortDirection] = useState('asc');
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 20;
 
@@ -11,9 +13,30 @@ const Home = () => {
     fetch('/data.json')
       .then((response) => response.json())
       .then((json) => {
-        setData(json);
+        sortData(sortField,json);
       });
   }, []);
+
+  const getAndUpdateSortField = (field) => {
+    const direction = sortField === field && sortDirection === 'asc' ? 'desc' : 'asc';
+    setSortField(field);
+    setSortDirection(direction);
+    return direction;
+  };
+
+  const sortData = (field, dataToSort = data) => {
+    const direction = getAndUpdateSortField(field);
+    const sortedData = [...dataToSort].sort((a, b) => {
+      if (field === 'Total energy supply') {
+        return direction === 'asc' ? a[field] - b[field] : b[field] - a[field];
+      } else {
+        return direction === 'asc'
+          ? a[field].localeCompare(b[field])
+          : b[field].localeCompare(a[field]);
+      }
+    });
+    setData(sortedData);
+  };
 
   const paginatedData = data.slice(
     (currentPage - 1) * itemsPerPage,
@@ -28,9 +51,9 @@ const Home = () => {
       <table>
         <thead>
           <tr>
-            <th>Country</th>
-            <th>Region</th>
-            <th>Total Energy Supply</th>
+            <th onClick={() => sortData('country')}>Country</th>
+            <th onClick={() => sortData('region')}>Region</th>
+            <th onClick={() => sortData('Total energy supply')}>Total Energy Supply</th>
             <th>¿Is a IEA member?</th>
           </tr>
         </thead>
