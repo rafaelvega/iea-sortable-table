@@ -21,6 +21,7 @@ const Home = () => {
     const direction = sortField === field && sortDirection === 'asc' ? 'desc' : 'asc';
     setSortField(field);
     setSortDirection(direction);
+    setCurrentPage(1);
     return direction;
   };
 
@@ -46,33 +47,43 @@ const Home = () => {
   const totalPages = Math.ceil(data.length / itemsPerPage);
 
   return (
-    <div className="App">
-      <h1>Sortable Table</h1>
-      <table>
+    <div className="App container mx-auto">
+      <h1 className="text-3xl font-semibold text-gray-900 text-center mt-3 mb-3">Sortable Table</h1>
+      <table className="table-fixed min-w-full border">
         <thead>
-          <tr>
-            <th onClick={() => sortData('country')}>Country</th>
-            <th onClick={() => sortData('region')}>Region</th>
-            <th onClick={() => sortData('Total energy supply')}>Total Energy Supply</th>
-            <th>¿Is a IEA member?</th>
+          <tr className="bg-gray-100 text-gray-600 uppercase text-sm leading-normal">
+            <th className="w-1/4 p-2 text-left cursor-pointer hover:underline" onClick={() => sortData('country')}>
+              Country 
+              {sortField === 'country' && (sortDirection === 'asc' ? '🔼' : '🔽')}
+            </th>
+            <th className="w-1/4 p-2 text-left cursor-pointer hover:underline" onClick={() => sortData('region')}>
+              Region 
+              {sortField === 'region' && (sortDirection === 'asc' ? '🔼' : '🔽')}
+            </th>
+            <th className="w-1/4 p-2 text-left cursor-pointer hover:underline" onClick={() => sortData('Total energy supply')}>
+              Total Energy Supply 
+              {sortField === 'Total energy supply' && (sortDirection === 'asc' ? '🔼' : '🔽')}
+            </th>
+            <th className="w-1/4 p-2 text-left">¿Is a IEA member?</th>
           </tr>
         </thead>
-        <tbody>
+        <tbody className="text-gray-600">
           {paginatedData.map((row, index) => (
-            <tr key={index}>
-              <td>{row['country']}</td>
-              <td>{row['region']}</td>
-              <td>{row['Total energy supply']}</td>
-              <td>{row['IEA member']?"Yes":"No"}</td>
+            <tr className="border-b border-gray-200 hover:bg-gray-100" key={index}>
+              <td className="p-2">{row['country']}</td>
+              <td className="p-2">{row['region']}</td>
+              <td className="p-2">{row['Total energy supply']}</td>
+              <td className="p-2">{row['IEA member']?"Yes":"No"}</td>
             </tr>
           ))}
         </tbody>
       </table>
-      <div className="pagination">
+      <div className="pagination flex justify-center items-center space-x-2 mt-6">
         {Array.from({ length: totalPages }, (_, index) => (
           <button
             key={index}
             onClick={() => setCurrentPage(index + 1)}
+            className={'px-4 py-2 rounded  ' + (currentPage === index + 1 ? 'bg-blue-500 text-white' : 'bg-gray-200 ')}
           >
             {index + 1}
           </button>

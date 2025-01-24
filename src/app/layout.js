@@ -22,10 +22,10 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased mb-7`}
       >
-        <div className="flex justify-between shadow p-4">
-
+        <header className="shadow p-4">
+          <div className="container mx-auto flex justify-between">
           <Image
               className="h-8 w-auto"
               src="/img/iea-logo.png"
@@ -35,11 +35,12 @@ export default function RootLayout({ children }) {
             />
 
 
-          <div className="text-right">
-            Test for Web developer (Grade GA4) - ref1720T
+            <div className="text-right">
+              Test for Web developer (Grade GA4) - ref1720T
+            </div>
           </div>
+        </header>
 
-        </div>
 
         {children}
       </body>
