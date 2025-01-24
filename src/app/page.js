@@ -4,6 +4,8 @@ import React, { useState, useEffect } from 'react';
 
 const Home = () => {
   const [data, setData] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 20;
 
   useEffect(() => {
     fetch('/data.json')
@@ -13,8 +15,12 @@ const Home = () => {
       });
   }, []);
 
+  const paginatedData = data.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
 
-
+  const totalPages = Math.ceil(data.length / itemsPerPage);
 
   return (
     <div className="App">
@@ -29,7 +35,7 @@ const Home = () => {
           </tr>
         </thead>
         <tbody>
-          {data.map((row, index) => (
+          {paginatedData.map((row, index) => (
             <tr key={index}>
               <td>{row['country']}</td>
               <td>{row['region']}</td>
@@ -39,6 +45,16 @@ const Home = () => {
           ))}
         </tbody>
       </table>
+      <div className="pagination">
+        {Array.from({ length: totalPages }, (_, index) => (
+          <button
+            key={index}
+            onClick={() => setCurrentPage(index + 1)}
+          >
+            {index + 1}
+          </button>
+        ))}
+      </div>
     </div>
   );
 };
