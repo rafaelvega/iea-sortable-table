@@ -54,6 +54,10 @@ const Home = () => {
     }
   };
 
+  const formatNumber = (number) => {
+    return number.toLocaleString('en-EN'); // Formats number with dots as thousand separators
+  };
+
   return (
     <div className="App container mx-auto">
       <h1 className="text-3xl font-semibold text-gray-900 text-center mt-3 mb-3">Sortable Table</h1>
@@ -90,7 +94,7 @@ const Home = () => {
             <tr className="border-b border-gray-200 hover:bg-gray-100" key={index}>
               <td className="p-2">{row['country']}</td>
               <td className="p-2">{row['region']}</td>
-              <td className="p-2">{row['Total energy supply']}</td>
+              <td className="p-2">{formatNumber(row['Total energy supply'])}</td>
               <td className="p-2">{row['IEA member']?"Yes":"No"}</td>
             </tr>
           ))}
