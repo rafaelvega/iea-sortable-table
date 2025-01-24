@@ -1,4 +1,6 @@
 import { Geist, Geist_Mono } from "next/font/google";
+import Image from "next/image";
+
 import "./globals.css";
 
 const geistSans = Geist({
@@ -22,6 +24,23 @@ export default function RootLayout({ children }) {
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        <div className="flex justify-between shadow p-4">
+
+          <Image
+              className="h-8 w-auto"
+              src="/img/iea-logo.png"
+              alt="IEA Logo"
+              width={180}
+              height={30}
+            />
+
+
+          <div className="text-right">
+            Test for Web developer (Grade GA4) - ref1720T
+          </div>
+
+        </div>
+
         {children}
       </body>
     </html>
